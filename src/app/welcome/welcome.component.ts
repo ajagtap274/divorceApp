@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HardAuthService } from '../service/hard-auth.service';
 
 @Component({
   selector: 'app-welcome',
@@ -8,11 +9,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class WelcomeComponent implements OnInit {
 
-  name='';
-  constructor(private route:ActivatedRoute) { }
+ // name='';
+  constructor(private route:ActivatedRoute, private router:Router, private hardAuth:HardAuthService) { }
 
   ngOnInit(): void {
-    this.name= this.route.snapshot.params['name'];
+    if(!this.hardAuth.isUserLoggedIn())
+    {
+      this.router.navigate(['login']);
+    }
+
   }
 
 }
